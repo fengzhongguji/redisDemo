@@ -101,4 +101,19 @@ public class TestRedis {
         System.out.println(jedis.srandmember("user1"));
         System.out.println(jedis.scard("user1"));//返回集合的元素个数
     }
+    @Test
+    public void test() throws InterruptedException {
+        //jedis 排序
+        //注意，此处的rpush和lpush是List的操作。是一个双向链表（但从表现来看的）
+        jedis.del("a");//先清除数据，再加入数据进行测试
+        jedis.rpush("a", "1");
+        jedis.lpush("a","6");
+        jedis.lpush("a","3");
+        jedis.lpush("a","9");
+        System.out.println(jedis.lrange("a",0,-1));// [9, 3, 6, 1]
+        System.out.println(jedis.sort("a")); //[1, 3, 6, 9]  //输入排序后结果
+        System.out.println(jedis.lrange("a",0,-1));
+    }
+
+
 }
